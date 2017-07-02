@@ -6,7 +6,6 @@
 
 from __future__ import print_function, absolute_import, division
 from distutils.command.clean import clean
-import subprocess
 import shutil
 import os
 import sys
@@ -23,9 +22,11 @@ builtins.__PYRAMID_SETUP__ = True
 
 # metadata
 DISTNAME = 'pyramid'
-DESCRIPTION = "Python's auto.arima equivalent"
+PYPIDIST = '%s-arima' % DISTNAME
+DESCRIPTION = "Python's forecast::auto.arima equivalent"
 
 MAINTAINER = 'Taylor G. Smith'
+MAINTAINER_GIT = 'tgsmith61591'
 MAINTAINER_EMAIL = 'taylor.smith@alkaline-ml.com'
 LICENSE = 'MIT'
 
@@ -50,9 +51,7 @@ if SETUPTOOLS_COMMANDS.intersection(sys.argv):
     extra_setuptools_args = dict(
         zip_safe=False,  # the package can run out of an .egg file
         include_package_data=True,
-        extras_require={
-            'alldeps': REQUIREMENTS,
-        },
+        install_requires=REQUIREMENTS,
     )
 else:
     extra_setuptools_args = dict()
@@ -112,7 +111,9 @@ def configuration(parent_package='', top_path=None):
 
 def do_setup():
     # setup the config
-    metadata = dict(name=DISTNAME,
+    metadata = dict(name=PYPIDIST,
+                    packages=[DISTNAME],
+                    url="https://github.com/%s/%s" % (MAINTAINER_GIT, DISTNAME),
                     maintainer=MAINTAINER,
                     maintainer_email=MAINTAINER_EMAIL,
                     description=DESCRIPTION,
@@ -120,22 +121,25 @@ def do_setup():
                     version=VERSION,
                     classifiers=['Intended Audience :: Science/Research',
                                  'Intended Audience :: Developers',
-                                 'Intended Audience :: Scikit-learn users',
-                                 'Intended Audience :: R users',
+                                 'Programming Language :: C',
                                  'Programming Language :: Python',
-                                 'Topic :: Machine Learning',
                                  'Topic :: Software Development',
                                  'Topic :: Scientific/Engineering',
                                  'Operating System :: Microsoft :: Windows',
                                  'Operating System :: POSIX',
                                  'Operating System :: Unix',
                                  'Operating System :: MacOS',
-                                 'Programming Language :: Python :: 2.7'
+                                 'Programming Language :: Python :: 2.7',
+                                 'Programming Language :: Python :: 3.5',
+                                 'Programming Language :: Python :: 3.6',
                                  ],
                     keywords='sklearn scikit-learn arima timeseries',
-                    # packages=[DISTNAME],
+                    # this will only work for releases that have the appropriate tag...
+                    download_url='https://github.com/%s/%s/archive/v%s.tar.gz' % (MAINTAINER_GIT, DISTNAME, VERSION),
                     # install_requires=REQUIREMENTS,
-                    cmdclass=cmdclass)
+                    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
+                    cmdclass=cmdclass,
+                    **extra_setuptools_args)
 
     if len(sys.argv) == 1 or (
             len(sys.argv) >= 2 and ('--help' in sys.argv[1:] or
