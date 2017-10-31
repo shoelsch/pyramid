@@ -36,7 +36,6 @@ function build_wheel {
         -e "PYMODULE=${PYMODULE}" \
         -e "PYTHON_VERSION=${ML_PYTHON_VERSION}" \
         "${ML_IMAGE}" "/io/build_tools/travis/build_manywheels_linux.sh"
-    ls /io/dist/
     sudo docker cp "${DOCKER_CONTAINER_NAME}:/io/dist/" "${_root}/dist/"
     docker rm $(docker ps -a -f status=exited -q)
 }
