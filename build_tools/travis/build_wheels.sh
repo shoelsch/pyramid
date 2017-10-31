@@ -20,6 +20,8 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
             "print('cp{maj}{min}-cp{maj}{min}m'.format( \
                    maj='${pyver}'.split('.')[0], \
                    min='${pyver}'.split('.')[1]))")
+	python3 -c "import sys; opts = {1114111: 'ucs4', 65535: 'ucs2'}; print(opts.get(sys.maxunicode));"
+
 
         for arch in x86_64; do
             ML_IMAGE="quay.io/pypa/manylinux1_${arch}"
