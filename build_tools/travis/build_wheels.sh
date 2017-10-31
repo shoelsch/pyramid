@@ -49,7 +49,7 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
     echo "Building LINUX OS wheels"
 
     for pyver in ${PYTHON_VERSION}; do
-	if [ -z "$UCS_SETTING" | "$UCS_SETTING" = "ucs2" ]; then
+	if [ -z "$UCS_SETTING" ] || [ "$UCS_SETTING" = "ucs2" ]; then
             build_wheel $pyver "x86_64" "ucs2"
         elif [ "$UCS_SETTING" = "ucs4" ]; then
 	    build_wheel $pyver "x86_64" "ucs4"
