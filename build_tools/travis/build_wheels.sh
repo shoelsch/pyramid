@@ -36,7 +36,7 @@ function build_wheel {
         -e "PYMODULE=${PYMODULE}" \
         -e "PYTHON_VERSION=${ML_PYTHON_VERSION}" \
         "${ML_IMAGE}" "/io/build_tools/travis/build_manywheels_linux.sh"
-    sudo docker cp "${DOCKER_CONTAINER_NAME}:/io/dist/" "${_root}/dist/"
+    sudo docker cp "${DOCKER_CONTAINER_NAME}:/io/dist/." "${_root}/dist/"
     docker rm $(docker ps -a -f status=exited -q)
 }
 
@@ -51,6 +51,7 @@ fi
 pushd $(dirname $0) > /dev/null
 _root=$(dirname $(dirname $(pwd -P))) # get one directory up from parent to get to root dir
 popd > /dev/null
+mkdir -p ${_root}/dist
 
 if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
     echo "Building LINUX OS wheels"
