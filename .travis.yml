@@ -35,14 +35,6 @@ matrix:
            COVERAGE=true SCIKIT_LEARN_VERSION="0.17.1" DEPLOY=true CACHEC=true
            DOCKER_IMAGE="quay.io/pypa/manylinux1_x86_64" DOCKER_CONTAINER_NAME="pyramidcontainer"
 
-    - os: linux
-      dist: trusty
-      services:
-        - docker
-      env: DISTRIB="conda" PYTHON_VERSION="2.7.12" CYTHON_VERSION="0.23.5"
-           COVERAGE=true SCIKIT_LEARN_VERSION="0.17.1" DEPLOY=true CACHEC=true
-           DOCKER_IMAGE="quay.io/pypa/manylinux1_x86_64" DOCKER_CONTAINER_NAME="pyramidcontainer"
-
     # This environment tests the same conditions as above, but tests against MAC OS X,
     # using virtualenv instead of the conda python distribution
     - os: osx
