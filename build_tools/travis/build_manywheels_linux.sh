@@ -21,4 +21,3 @@ for whl in /io/dist/*.whl; do
 
     rm $whl # remove wheel
 done
-ls -lh /io/dist/

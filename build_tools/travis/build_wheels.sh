@@ -43,7 +43,6 @@ fi
 pushd $(dirname $0) > /dev/null
 _root=$(dirname $(dirname $(pwd -P))) # get one directory up from parent to get to root dir
 popd > /dev/null
-mkdir -p ${_root}/dist
 
 if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
     echo "Building LINUX OS wheels"
