@@ -3,14 +3,6 @@
 set -e -x
 
 
-function lex_pyver {
-    # Echoes Python version string padded with zeros
-    # Thus:
-    # 3.2.1 -> 003002001
-    # 3     -> 003000000
-    echo $1 | awk -F "." '{printf "%03d%03d%03d", $1, $2, $3}'
-}
-
 function build_wheel {
     local pyver=$1
     local arch=$2
@@ -57,13 +49,13 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
     echo "Building LINUX OS wheels"
 
     for pyver in ${PYTHON_VERSION}; do
-        build_wheel $pyver "x86_64" "ucs2"
-	ls -lh ${_root}/dist
-        if [ $(lex_pyver $pyver) -lt $(lex_pyver 3.3) ]; then
+	if [ -z "$UCS_SETTING" | "$UCS_SETTING" = "ucs2" ]; then
+            build_wheel $pyver "x86_64" "ucs2"
+        elif [ "$UCS_SETTING" = "ucs4" ]; then
 	    build_wheel $pyver "x86_64" "ucs4"
-	    ls -lh ${_root}/dist
+	else
+            echo "Unrecognized UCS_SETTING: ${UCS_SETTING}"	
         fi
-	ls -lh ${_root}/dist
     done
 elif [ "${TRAVIS_OS_NAME}" == "osx" ]; then
     # this should be all that's required, right? We already removed the .egg-info
