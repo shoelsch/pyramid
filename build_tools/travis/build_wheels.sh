@@ -58,9 +58,12 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
 
     for pyver in ${PYTHON_VERSION}; do
         build_wheel $pyver "x86_64" "ucs2"
+	ls -lh ${_root}/dist
         if [ $(lex_pyver $pyver) -lt $(lex_pyver 3.3) ]; then
 	    build_wheel $pyver "x86_64" "ucs4"
+	    ls -lh ${_root}/dist
         fi
+	ls -lh ${_root}/dist
     done
 elif [ "${TRAVIS_OS_NAME}" == "osx" ]; then
     # this should be all that's required, right? We already removed the .egg-info
